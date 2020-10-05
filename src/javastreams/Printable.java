@@ -10,5 +10,6 @@ package javastreams;
  * @author vmatheis
  */
 public interface Printable {
-      
+
+    void print(Weapon weapon);
 }
