@@ -19,11 +19,13 @@ import java.util.stream.Collectors;
  */
 public class JavaStreams {
 
-    static Comparator<Weapon> c;
+    static Comparator<Weapon> damage;
+    static Comparator<Weapon> bigc;
 
-    public static List<Weapon> main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
+        initialize();
         List<Weapon> weapon = new ArrayList<>();
-
+        
         weapon = Files.lines(new File("weapons.csv").toPath()).skip(1)
                 .map(s -> s.split(";"))
                 .map(s -> new Weapon(
@@ -36,11 +38,24 @@ public class JavaStreams {
                 Integer.parseInt(s[6])
         ))
                 .collect(Collectors.toList());
-        weapon.sort(c);
-        return weapon;
+        weapon.sort(bigc);
+        
     }
 
     public static void initialize() {
-        c = ((o1, o2) -> Integer.compare(o1.getDamage(), o2.getDamage()));
+        damage = ((o1, o2) -> Integer.compare(o1.getDamage(), o2.getDamage()));
+        bigc = ((o1, o2) -> {
+           if(o1.getCombatType().compareTo(o2.getCombatType()) == 0){
+               if(Integer.compare(o1.getDamage(), o2.getDamage()) == 0){
+                   return o1.getName().compareTo(o2.getName());
+               } else{
+                   return Integer.compare(o1.getDamage(), o2.getDamage());
+               }
+           } else{
+               return o1.getCombatType().compareTo(o2.getCombatType());
+           }
+        });
     }
+    
+    
 }
