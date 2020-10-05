@@ -21,11 +21,15 @@ public class JavaStreams {
 
     static Comparator<Weapon> damage;
     static Comparator<Weapon> bigc;
+    static List<Weapon> weapon = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         initialize();
-        List<Weapon> weapon = new ArrayList<>();
-        
+        readFile();
+        printList();
+    }
+
+    public static void readFile() throws IOException {
         weapon = Files.lines(new File("weapons.csv").toPath()).skip(1)
                 .map(s -> s.split(";"))
                 .map(s -> new Weapon(
@@ -39,23 +43,25 @@ public class JavaStreams {
         ))
                 .collect(Collectors.toList());
         weapon.sort(bigc);
-        
     }
 
     public static void initialize() {
         damage = ((o1, o2) -> Integer.compare(o1.getDamage(), o2.getDamage()));
         bigc = ((o1, o2) -> {
-           if(o1.getCombatType().compareTo(o2.getCombatType()) == 0){
-               if(Integer.compare(o1.getDamage(), o2.getDamage()) == 0){
-                   return o1.getName().compareTo(o2.getName());
-               } else{
-                   return Integer.compare(o1.getDamage(), o2.getDamage());
-               }
-           } else{
-               return o1.getCombatType().compareTo(o2.getCombatType());
-           }
+            if (o1.getCombatType().compareTo(o2.getCombatType()) == 0) {
+                if (Integer.compare(o1.getDamage(), o2.getDamage()) == 0) {
+                    return o1.getName().compareTo(o2.getName());
+                } else {
+                    return Integer.compare(o1.getDamage(), o2.getDamage());
+                }
+            } else {
+                return o1.getCombatType().compareTo(o2.getCombatType());
+            }
         });
     }
-    
-    
+
+    public static void printList() {
+        Printable printable = p -> System.out.println(p.getName() + " [" + p.getDamageType() + " = " + p.getDamage() + "]");
+        weapon.forEach(w -> printable.print(w));
+    }
 }
