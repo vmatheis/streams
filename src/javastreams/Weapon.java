@@ -74,4 +74,7 @@ public class Weapon {
         hash = 11 * hash + this.value;
         return hash;
     }
+
+    
+    
 }

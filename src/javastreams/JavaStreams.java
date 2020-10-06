@@ -26,7 +26,8 @@ public class JavaStreams {
     public static void main(String[] args) throws IOException {
         initialize();
         readFile();
-        printList();
+        //printList();
+        printListAsTable();
     }
 
     public static void readFile() throws IOException {
@@ -64,4 +65,23 @@ public class JavaStreams {
         Printable printable = p -> System.out.println(p.getName() + " [" + p.getDamageType() + " = " + p.getDamage() + "]");
         weapon.forEach(w -> printable.print(w));
     }
+
+    public static void printListAsTable() {
+        System.out.println("-----------------------------------------------------------------");
+
+        Printable tablePrint = (w) -> {
+            System.out.printf("%-20s", " | " + w.getName());
+            System.out.printf("%-9s", " | " + w.getCombatType());
+            System.out.printf("%-11s ", " | " + w.getDamageType());
+            System.out.printf("%-6s", " | " + w.getDamage());
+            System.out.printf("%-3s", " | " + w.getSpeed());
+            System.out.printf("%-6s", " | " + w.getMinStrength());
+            System.out.printf("%-7s %n", " | " + w.getValue());
+            System.out.println("+---------------------------------------------------------------+");
+        };
+        weapon.forEach(w -> tablePrint.print(w));
+        System.out.println("-----------------------------------------------------------------");
+
+    }
+
 }
