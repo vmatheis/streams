@@ -26,7 +26,7 @@ public class JavaStreams {
     public static void main(String[] args) throws IOException {
         initialize();
         readFile();
-        //printList();
+        printList();
         printListAsTable();
     }
 
