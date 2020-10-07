@@ -15,12 +15,13 @@ import java.util.stream.Collectors;
 
 public class Streams {
     int[] numbers;
+    String[] string = new String[10];
 
     public Streams(int[] numbers) {
         this.numbers = numbers;
         for (int i = 0; i < 1000; i++) {
             this.numbers[i] = ((int) ((Math.random()*100)+1));
-        }
+        }        
     }
 
     public double average(int[] numbers) {
