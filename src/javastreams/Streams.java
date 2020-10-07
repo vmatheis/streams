@@ -22,11 +22,9 @@ public class Streams {
             this.numbers[i] = ((int) ((Math.random()*100)+1));
         }
     }
-    
-    
 
     public double average(int[] numbers) {
-        //implement this
+        return Arrays.stream(numbers).asDoubleStream().average().getAsDouble();
     }
 
     public List<String> upperCase(String[] strings) {
