@@ -9,8 +9,10 @@ package javastreams;
  *
  * @author vmatheis
  */
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Streams {
@@ -21,7 +23,12 @@ public class Streams {
         this.numbers = numbers;
         for (int i = 0; i < 1000; i++) {
             this.numbers[i] = ((int) ((Math.random()*100)+1));
-        }        
+        }
+        byte[] b = new byte[10];
+        for (String s : string) {
+            new Random().nextBytes(b);
+            s = new String(b, Charset.forName("UTF-8"));
+        }
     }
 
     public double average(int[] numbers) {
