@@ -20,11 +20,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Streams {
-
+    
     int[] numbers;
     String[] string = new String[10];
     List<Weapon> weapon = new ArrayList<>();
-
+    
     public Streams(int[] numbers) {
         this.numbers = numbers;
         for (int i = 0; i < 1000; i++) {
@@ -36,57 +36,57 @@ public class Streams {
             s = new String(b, Charset.forName("UTF-8"));
         }
     }
-
+    
     public double average(int[] numbers) {
         return Arrays.stream(numbers).asDoubleStream().average().getAsDouble();
     }
-
+    
     public List<String> upperCase(String[] strings) {
-        //implement this
+        return Arrays.stream(string).map(w -> w.toUpperCase()).collect(Collectors.toList());
     }
-
+    
     public Weapon findWeaponWithLowestDamage(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public Weapon findWeaponWithHighestStrength(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public List<Weapon> collectMissileWeapons(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public Weapon findWeaponWithLongestName(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public List<String> toNameList(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public int[] toSpeedArray(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public int sumUpValues(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public long sumUpHashCodes(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public List<Weapon> removeDuplicates(List<Weapon> weapons) {
         //implement this
     }
-
+    
     public void increaseValuesByTenPercent(List<Weapon> weapons) {
         //implement this
     }
     
-    public void readFile() throws IOException{
-         weapon = Files.lines(new File("weapons.csv").toPath()).skip(1)
+    public void readFile() throws IOException {
+        weapon = Files.lines(new File("weapons.csv").toPath()).skip(1)
                 .map(s -> s.split(";"))
                 .map(s -> new Weapon(
                 s[0],
