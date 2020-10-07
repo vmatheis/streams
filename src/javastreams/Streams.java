@@ -17,26 +17,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Streams {
 
-    int[] numbers;
+    int[] numbers = new int[1000];
     String[] string = new String[10];
     List<Weapon> weapon = new ArrayList<>();
 
-    public Streams(int[] numbers) throws IOException {
-        this.numbers = numbers;
-        for (int i = 0; i < 1000; i++) {
-            this.numbers[i] = ((int) ((Math.random() * 100) + 1));
-        }
-        byte[] b = new byte[10];
-        for (String s : string) {
-            new Random().nextBytes(b);
-            s = new String(b, Charset.forName("UTF-8"));
-        }
-        readFile();
+    public Streams() {
     }
 
     public double average(int[] numbers) {
@@ -44,15 +36,23 @@ public class Streams {
     }
 
     public List<String> upperCase(String[] strings) {
-        return Arrays.stream(string).map(w -> w.toUpperCase()).collect(Collectors.toList());
+        return Arrays.asList(strings).stream().map(w -> w.toUpperCase()).collect(Collectors.toList());
     }
 
     public Weapon findWeaponWithLowestDamage(List<Weapon> weapons) {
-        return weapons.stream().min(Comparator.comparing(Weapon::getDamage)).get();
+        try {
+            return weapons.stream().min(Comparator.comparing(Weapon::getDamage)).get();
+        } catch (NoSuchElementException ex) {
+            return null;
+        }
     }
 
     public Weapon findWeaponWithHighestStrength(List<Weapon> weapons) {
-        return weapons.stream().max(Comparator.comparing(Weapon::getMinStrength)).get();
+        try {
+            return weapons.stream().max(Comparator.comparing(Weapon::getMinStrength)).get();
+        } catch (NoSuchElementException ex) {
+            return null;
+        }
     }
 
     public List<Weapon> collectMissileWeapons(List<Weapon> weapons) {
@@ -60,7 +60,17 @@ public class Streams {
     }
 
     public Weapon findWeaponWithLongestName(List<Weapon> weapons) {
-        return weapons.stream().max(Comparator.comparing(Weapon::getName)).get();
+        try {
+            return weapons.stream().max(new Comparator<Weapon>() {
+                @Override
+                public int compare(Weapon o1, Weapon o2) {
+                    return o1.getName().length() - o2.getName().length();
+                }
+            })
+                    .get();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 
     public List<String> toNameList(List<Weapon> weapons) {
@@ -72,7 +82,7 @@ public class Streams {
     }
 
     public int sumUpValues(List<Weapon> weapons) {
-        return weapons.stream().mapToInt(w -> w.getSpeed()).sum();
+        return weapons.stream().mapToInt(w -> w.getValue()).sum();
     }
 
     public long sumUpHashCodes(List<Weapon> weapons) {
@@ -84,21 +94,7 @@ public class Streams {
     }
 
     public void increaseValuesByTenPercent(List<Weapon> weapons) {
-        weapons.stream().map(w -> w.setValue(((int) w.getValue() * 1.1)));
+        //weapons.stream().map(w -> w.setValue(((int) w.getValue() * 1.1)));
     }
 
-    public void readFile() throws IOException {
-        weapon = Files.lines(new File("weapons.csv").toPath()).skip(1)
-                .map(s -> s.split(";"))
-                .map(s -> new Weapon(
-                s[0],
-                CombatType.valueOf(s[1]),
-                DamageType.valueOf(s[2]),
-                Integer.parseInt(s[3]),
-                Integer.parseInt(s[4]),
-                Integer.parseInt(s[5]),
-                Integer.parseInt(s[6])
-        ))
-                .collect(Collectors.toList());
-    }
 }
