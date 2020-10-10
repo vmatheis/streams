@@ -34,14 +34,13 @@ public class PredicateMain {
         stringList.add("homework");
         
         predicate(list, stringList);
-
     }
 
     public static void predicate(List<Integer> list, List<String> stringList) {
         final Predicate<Integer> isEven = e -> (e % 2 == 0 && e != 0 );
         final Predicate<Integer> isPositive = e -> e > 0;
         final Predicate<Integer> isNull = e -> e == 0;
-        final Predicate<Integer> wertIsNull = e -> e == null;
+        //final Predicate<Integer> wertIsNull = e -> e == null;
         final Predicate<String> isShortWord = e -> e.length() < 4;
 
         try {
@@ -51,10 +50,10 @@ public class PredicateMain {
             System.out.println("------------------------");
             list.stream().filter(isNull).forEach(s -> System.out.println(s + " is zero"));
             System.out.println("------------------------");
-            list.stream().filter(wertIsNull).forEach(s -> System.out.println(s + " is null"));
+            //list.stream().filter(wertIsNull).forEach(s -> System.out.println(s + " is null"));
             stringList.stream().filter(isShortWord).forEach(s -> System.out.println("*" + s + "* has less than 4 letters"));
 
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e) { 
             System.out.println("null is null");
         }
     }

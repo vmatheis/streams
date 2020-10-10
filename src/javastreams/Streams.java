@@ -75,7 +75,7 @@ public class Streams {
     }
 
     public long sumUpHashCodes(List<Weapon> weapons) {
-        return weapons.stream().mapToLong(w -> w.hashCode()).sum();
+        return weapons.stream().mapToInt(w -> w.hashCode()).sum();
     }
 
     public List<Weapon> removeDuplicates(List<Weapon> weapons) {
@@ -83,7 +83,7 @@ public class Streams {
     }
 
     public void increaseValuesByTenPercent(List<Weapon> weapons) {
-        //weapons.stream().map(w -> w.setValue(((int) w.getValue() * 1.1)));
+        weapons.stream().forEach(w -> w.setValue((int) (w.getValue()*1.1)));
     }
 
 }
