@@ -9,22 +9,16 @@ package javastreams;
  *
  * @author vmatheis
  */
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Streams {
 
-    int[] numbers = new int[1000];
+    int[] number = new int[1000];
     String[] string = new String[10];
     List<Weapon> weapon = new ArrayList<>();
 
@@ -36,7 +30,7 @@ public class Streams {
     }
 
     public List<String> upperCase(String[] strings) {
-        return Arrays.asList(strings).stream().map(w -> w.toUpperCase()).collect(Collectors.toList());
+        return Arrays.stream(strings).map(w -> w.toUpperCase()).collect(Collectors.toList());
     }
 
     public Weapon findWeaponWithLowestDamage(List<Weapon> weapons) {
@@ -61,12 +55,7 @@ public class Streams {
 
     public Weapon findWeaponWithLongestName(List<Weapon> weapons) {
         try {
-            return weapons.stream().max(new Comparator<Weapon>() {
-                @Override
-                public int compare(Weapon o1, Weapon o2) {
-                    return o1.getName().length() - o2.getName().length();
-                }
-            })
+            return weapons.stream().max((Weapon o1, Weapon o2) -> o1.getName().length() - o2.getName().length())
                     .get();
         } catch (NoSuchElementException e) {
             return null;
@@ -86,7 +75,7 @@ public class Streams {
     }
 
     public long sumUpHashCodes(List<Weapon> weapons) {
-        return weapons.stream().mapToInt(w -> w.hashCode()).sum();
+        return weapons.stream().mapToLong(w -> w.hashCode()).sum();
     }
 
     public List<Weapon> removeDuplicates(List<Weapon> weapons) {

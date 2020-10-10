@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import static javastreams.JavaStreams.weapon;
 
 /**
  *
@@ -21,15 +22,36 @@ import java.util.stream.Stream;
  */
 public class MainStreams {
 
-    static int[] numbers = new int[1000];
-    static String[] string = new String[10];
-    static List<Weapon> weapon = new ArrayList<>();
-
     public static void main(String[] args) throws IOException {
+        initialize();
+    }
+
+    public static void initialize() throws IOException {
         Streams s = new Streams();
+        for (int i = 0; i < s.number.length; i++) {
+            s.number[i] = ((int) ((Math.random() * 100) + 1));
+        }
+
+        byte[] b = new byte[10];
+        for (int i = 0; i < s.string.length; i++) {
+            new Random().nextBytes(b);
+            s.string[i] = new String(b, Charset.forName("UTF-8"));
+        }
+
+        s.weapon = Files.lines(new File("weapons.csv").toPath()).skip(1)
+                .map(x -> x.split(";"))
+                .map(w -> new Weapon(
+                w[0],
+                CombatType.valueOf(w[1]),
+                DamageType.valueOf(w[2]),
+                Integer.parseInt(w[3]),
+                Integer.parseInt(w[4]),
+                Integer.parseInt(w[5]),
+                Integer.parseInt(w[6])
+        )).collect(Collectors.toList());
 
         System.out.println("average");
-        System.out.println(s.average(s.numbers));
+        System.out.println(s.average(s.number));
         System.out.println("upperCase");
         System.out.println(s.upperCase(s.string));
         System.out.println("lowestDamage");
@@ -52,30 +74,5 @@ public class MainStreams {
         System.out.println(s.removeDuplicates(s.weapon));
         System.out.println("value+10%");
         s.increaseValuesByTenPercent(s.weapon);
-    }
-
-    public static void initialize() throws IOException {
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = ((int) ((Math.random() * 100) + 1));
-        }
-
-        byte[] b = new byte[10];
-        for (int i = 0; i < string.length; i++) {
-            new Random().nextBytes(b);
-            string[i] = new String(b, Charset.forName("UTF-8"));
-        }
-
-        weapon = Files.lines(new File("weapons.csv").toPath()).skip(1)
-                .map(s -> s.split(";"))
-                .map(s -> new Weapon(
-                s[0],
-                CombatType.valueOf(s[1]),
-                DamageType.valueOf(s[2]),
-                Integer.parseInt(s[3]),
-                Integer.parseInt(s[4]),
-                Integer.parseInt(s[5]),
-                Integer.parseInt(s[6])
-        ))
-                .collect(Collectors.toList());
     }
 }

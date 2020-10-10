@@ -81,7 +81,6 @@ public class JavaStreams {
         };
         weapon.forEach(w -> tablePrint.print(w));
         System.out.println("-----------------------------------------------------------------");
-
-    }
+ }
 
 }
